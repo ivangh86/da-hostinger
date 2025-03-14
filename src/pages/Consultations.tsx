@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase, handleError } from "@/lib/supabase";
@@ -37,6 +36,7 @@ import {
 import { Loader2, Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Consultation, Specialty, Center } from "@/types";
+import VisitCounters from "./VisitCounters";
 
 interface ConsultationFormData {
   consultation_number: string;
@@ -250,27 +250,27 @@ const Consultations = () => {
                     <TableHead>Extensión</TableHead>
                     <TableHead>Especialidad</TableHead>
                     <TableHead>Centro</TableHead>
-                    <TableHead className="w-[100px]">Acciones</TableHead>
+                    <TableHead>Acciones</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {consultations?.map((consultation) => (
                     <TableRow key={consultation.id}>
-                      <TableCell className="font-medium">{consultation.consultation_number}</TableCell>
+                      <TableCell>{consultation.consultation_number}</TableCell>
                       <TableCell>{consultation.extension || "-"}</TableCell>
-                      <TableCell>{consultation.specialties?.name || "-"}</TableCell>
-                      <TableCell>{consultation.centers?.name || "-"}</TableCell>
+                      <TableCell>{consultation.specialties?.name}</TableCell>
+                      <TableCell>{consultation.centers?.name}</TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
+                        <div className="flex items-center space-x-2">
                           <Button
-                            variant="outline"
+                            variant="ghost"
                             size="icon"
                             onClick={() => openDialog(consultation)}
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
                           <Button
-                            variant="outline"
+                            variant="ghost"
                             size="icon"
                             onClick={() => openDeleteDialog(consultation)}
                           >
@@ -286,6 +286,9 @@ const Consultations = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Contadores de Visitas */}
+      <VisitCounters />
       
       {/* Create/Edit Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -306,7 +309,7 @@ const Consultations = () => {
                 <Input
                   id="consultation_number"
                   value={formData.consultation_number}
-                  onChange={(e) => setFormData({ ...formData, consultation_number: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, consultation_number: e.target.value })}
                   required
                 />
               </div>
@@ -316,7 +319,7 @@ const Consultations = () => {
                 <Input
                   id="extension"
                   value={formData.extension}
-                  onChange={(e) => setFormData({ ...formData, extension: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, extension: e.target.value })}
                 />
               </div>
               
@@ -324,7 +327,7 @@ const Consultations = () => {
                 <Label htmlFor="specialty">Especialidad</Label>
                 <Select 
                   value={formData.specialty_id} 
-                  onValueChange={(value) => setFormData({ ...formData, specialty_id: value })}
+                  onValueChange={(value: string) => setFormData({ ...formData, specialty_id: value })}
                   disabled={loadingSpecialties}
                 >
                   <SelectTrigger id="specialty">
@@ -344,7 +347,7 @@ const Consultations = () => {
                 <Label htmlFor="center">Centro</Label>
                 <Select 
                   value={formData.center_id} 
-                  onValueChange={(value) => setFormData({ ...formData, center_id: value })}
+                  onValueChange={(value: string) => setFormData({ ...formData, center_id: value })}
                   disabled={loadingCenters}
                 >
                   <SelectTrigger id="center">

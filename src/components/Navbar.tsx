@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,8 @@ import {
   ClipboardList, 
   Activity, 
   BookUser, 
-  KeyRound
+  KeyRound,
+  Users2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

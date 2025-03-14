@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { 
@@ -25,7 +24,8 @@ import {
   BookUser, 
   KeyRound,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Users2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -46,6 +46,12 @@ const Sidebar = () => {
       path: "/planning", 
       adminOnly: false, 
       icon: Calendar 
+    },
+    { 
+      name: "Contadores de Visitas", 
+      path: "/visit-counters", 
+      adminOnly: false, 
+      icon: Users2 
     },
     { 
       name: "Registro", 

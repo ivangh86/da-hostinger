@@ -12,7 +12,11 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      retry: 1
+      retry: 2,
+      staleTime: 5 * 60 * 1000, // 5 minutos
+      gcTime: 10 * 60 * 1000, // 10 minutos
+      refetchOnReconnect: false,
+      refetchOnMount: false
     }
   }
 });
@@ -21,7 +25,7 @@ const AppRoutes = () => {
   const element = useRoutes(routes);
   return (
     <Suspense fallback={
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen bg-background">
         <LoadingSpinner size="lg" />
       </div>
     }>
@@ -34,10 +38,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <AuthProvider>
-        <TooltipProvider>
+        <TooltipProvider delayDuration={200}>
           <AppRoutes />
           <Toaster />
-          <Sonner />
+          <Sonner richColors position="top-right" />
         </TooltipProvider>
       </AuthProvider>
     </BrowserRouter>
